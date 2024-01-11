@@ -1,4 +1,4 @@
-import React from 'react';
+import React , {useState} from 'react';
 import {
     TextField,
     Grid,
@@ -6,10 +6,65 @@ import {
 } from "@material-ui/core";
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useStateValue } from "../../StateContext";
+import { storage } from '../../firebase';
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 const ContactForm = () => {
 
     const [{ formValues }, dispatch] = useStateValue();
+
+
+    const uploadImageToFirebase = async (file) => {
+        try {
+          // Create a storage reference
+          const storageRef = ref(storage, `/files/${file.name}`)
+
+          const uploadTask = uploadBytesResumable(storageRef, file);
+ 
+          uploadTask.on(
+              "state_changed",
+              (snapshot) => {
+                  const percent = Math.round(
+                      (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                  );
+
+              },
+              (err) => console.log(err),
+              () => {
+                  // download url
+                  getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                      console.log(url);
+                      dispatch({
+                        type: 'editFormValue',
+                        key: "imageLink",
+                        value: url
+                    })
+                  });
+              }
+          );
+    
+        } catch (error) {
+          console.error('Error uploading image to Firebase:', error.message);
+          throw error; // You may want to handle errors more gracefully in your application
+        }
+      };
+
+      const handleFileChange = async (e) => {
+        const file = e.target.files[0];
+    
+        if (file) {
+          try {
+            // Upload the image and get the download URL
+            const imageUrl = await uploadImageToFirebase(file);
+    
+            // Now, you can use the imageUrl as needed in your application
+            console.log('Image uploaded to Firebase:', imageUrl);
+          } catch (error) {
+            // Handle error (e.g., show a message to the user)
+            console.error('Error uploading image:', error.message);
+          }
+        }
+      };
 
     return <>
         <Grid item xs={12}>
@@ -84,20 +139,7 @@ const ContactForm = () => {
             />
         </Grid>
         <Grid item xs={12} sm={6}>
-            <TextField
-                label="Street Address 2 (optional)"
-                name="line2"
-                variant="outlined"
-                fullWidth
-                value={formValues.line2}
-                onChange={e =>
-                    dispatch({
-                        type: 'editFormValue',
-                        key: "line2",
-                        value: e.target.value
-                    })
-                }
-            />
+            <input type="file" id="file-input" name="ImageStyle" onChange={handleFileChange} />
         </Grid>
         <Grid item xs={12} sm={4}>
             <TextField

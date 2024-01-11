@@ -18,13 +18,10 @@ import StepperIcons from "./StepperIcons";
 import ContactForm from "./Forms/ContactForm";
 import PaymentForm from "./Forms/PaymentForm";
 import ServiceForm from "./Forms/ServiceForm";
-import {
-    useStripe,
-    useElements,
-    CardCvcElement,
-} from '@stripe/react-stripe-js';
 import { useStateValue } from "../StateContext";
 import StepConnector from './StepConnector'
+import { db } from '../firebase';
+import { getAuth } from 'firebase/auth';
 import {
     clientSecretPull,
     stripeDataObjectConverter,
@@ -62,31 +59,40 @@ const StepContent = ({ step }) => {
     switch (step) {
         case 0:
             return <ContactForm />;
+            
         case 1:
-            return <ServiceForm />;
-        case 2:
             return <PaymentForm />;
+        case 2:
+           
+            return <ServiceForm />;
         default:
             return <></>;
     }
 }
 
-const Steppers = () => {
+const Steppers = ({stripe}) => {
     const classes = style();
     const [activeStep, setActiveStep] = useState(0);
     const [loading, setLoading] = useState(false);
     const [cardStatus, setCardStatus] = useState(true);
     const [cardMessage, setCardMessage] = useState("");
-
-    const stripe = useStripe();
-    const elements = useElements();
     const [{ formValues }, dispatch] = useStateValue();
-
-    const handleNext = () => {
-        if (activeStep === 2) {
-            capture()
-        } else {
+    const currentUser= getAuth().currentUser
+    const handleNext =  async () => {
+        if (activeStep === 1 ) {
+            if(formValues.paid){
+                setActiveStep(prevActiveStep => prevActiveStep + 1);
+            }else{
+                alert("Sorry but you have to pay first !")
+            }
+           
+        } else if(activeStep === 2)  {
+            await db.collection('Buyers').doc(currentUser.uid).set(formValues)
+            console.log(formValues)
+        
+        }else{
             setActiveStep(prevActiveStep => prevActiveStep + 1);
+
         }
     };
     const handleBack = () => setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -96,22 +102,10 @@ const Steppers = () => {
 
         setLoading(true);
 
-        console.log(formValues);
-        const clientSecretDataObject = clientSecretDataObjectConverter(formValues);
-        const clientSecret = await clientSecretPull(clientSecretDataObject);
-        const cardElement = elements.getElement(CardCvcElement);
-        const stripeDataObject = stripeDataObjectConverter(formValues, cardElement);
-        const { paymentIntent, error } = await stripe.confirmCardPayment(clientSecret, stripeDataObject);
+        console.log(stripe);
 
-        if (error) {
-            setCardStatus(false);
-            setCardMessage(error.message)
-        } else if (paymentIntent && paymentIntent.status === "succeeded") {
-            setCardStatus(true);
-            setCardMessage("");
-            dispatch({ type: 'emptyFormValue' });
-        }
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        
+        //setActiveStep((prevActiveStep) => prevActiveStep + 1);
         setLoading(false);
     }
 
@@ -168,7 +162,7 @@ const Steppers = () => {
                                             ?
                                             <CircularProgress size={24} />
                                             :
-                                            activeStep === 2 ? 'Pay' : 'Next'
+                                            activeStep === 2 ? 'Save Information' : 'Next'
                                     }
                                 </Button>
                             </Grid>

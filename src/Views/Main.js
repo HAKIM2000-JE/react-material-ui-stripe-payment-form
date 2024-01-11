@@ -8,8 +8,9 @@ import { publishableKeyGet } from '../constants/functions'
 
 const useStyles = makeStyles(theme => ({
     boxWrapper: {
-        marginBottom: "55px",
-        minHeight: "calc(26vh + 260px)"
+        marginBottom: "10px",
+        minHeight: "calc(26vh + 260px)",
+        marginTop:"55px"
     },
     container: {
         position: "relative",
@@ -19,18 +20,22 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const Main = () => {
+const Main = ({stripe}) => {
     const classes = useStyles();
     
     const [stripePromise, setStripePromise] = useState(null)
 
     useEffect(() => {
-        const retrievePublishableKey = async () => {
-            const publishableKey = await publishableKeyGet()
-            const stripe = loadStripe(publishableKey);
-            setStripePromise(stripe)
-        }
-        retrievePublishableKey()
+        // const retrievePublishableKey = async () => {
+        //     const publishableKey = await publishableKeyGet()
+        //     const stripe = loadStripe(publishableKey);
+        //     setStripePromise(stripe)
+        // }
+        // retrievePublishableKey()
+
+
+        const promise = loadStripe("pk_test_51HpgOfESTacQj7cFapgiHwtCBCNNfw44k82IX3qfsUEn59PEHl2GijrntIlZL3oundNmzBUp87WsdZLVwcLTchqp006Nq3vz5v")
+        setStripePromise(promise)
     }, [])
 
     return <Box component="main" className={classes.boxWrapper}>
@@ -38,7 +43,7 @@ const Main = () => {
             <Paper elevation={5}>
                 {stripePromise
                     ? <Elements stripe={stripePromise}>
-                        <CustomizedSteppers />
+                        <CustomizedSteppers  stripe={stripe} />
                     </Elements>
                     : null
                 }

@@ -15,7 +15,7 @@ import NoticeDialog from "./LegalNoticePopups/NoticeDialog";
 const Footer = () => {
 
     return <>
-        <Grid container justify="center" style={{minHeight: "212px"}}>
+        <Grid container justify="center" style={{minHeight: "212px", marginTop:20}}>
             <Grid container item sm={6} xs={11} justify="space-between">
                 <Grid item sm={5} xs={12}>
                     <Security color="action" />
@@ -33,7 +33,7 @@ const Footer = () => {
         </Grid>
         <AppBar position="static" elevation={0} component="footer" color="default">
             <Toolbar style={{ justifyContent: "center" }}>
-                <Typography variant="caption">©2020</Typography> <NoticeDialog  separator="&nbsp;᛫" />
+                <Typography variant="caption">©2024</Typography> <NoticeDialog  separator="&nbsp;᛫" />
             </Toolbar>
         </AppBar>
     </>

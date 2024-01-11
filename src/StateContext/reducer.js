@@ -14,6 +14,10 @@ const initialState = {
         country: null,
         currency: null,
         amount: "",
+        imageLink:"",
+        paid:false,
+        numberType:"",
+        number:""
     },
 };
 

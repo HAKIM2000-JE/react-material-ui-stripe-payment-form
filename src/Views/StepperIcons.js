@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import {
     ContactMail,
-    Info,
+    Code,
     Payment,
 } from '@material-ui/icons';
 
@@ -36,9 +36,9 @@ const StepperIcon = props => {
 
     const icons = {
         1: <ContactMail />,
-        2: <Info />,
-        3: <Payment />,
-        4: <Payment />,
+        2: <Payment/>,
+        3: <Code />,
+        4: <Code />,
     };
 
     return (
