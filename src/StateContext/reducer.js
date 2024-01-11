@@ -16,15 +16,16 @@ const initialState = {
         amount: "",
         imageLink:"",
         paid:false,
-        numberType:"",
-        number:""
+       
     },
 };
 
 const reducer = (state, action) => {
+    console.log("reducer called")
     switch (action.type) {
         case 'editFormValue':
             state.formValues[action.key.toLowerCase()] = action.value;
+            console.log(state)
             return { ...state };
 
         case 'emptyFormValue':

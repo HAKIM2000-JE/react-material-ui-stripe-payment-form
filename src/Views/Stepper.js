@@ -21,6 +21,7 @@ import ServiceForm from "./Forms/ServiceForm";
 import { useStateValue } from "../StateContext";
 import StepConnector from './StepConnector'
 import { db } from '../firebase';
+import { useNavigate } from 'react-router-dom';
 import { getAuth } from 'firebase/auth';
 import {
     clientSecretPull,
@@ -71,6 +72,7 @@ const StepContent = ({ step }) => {
 }
 
 const Steppers = ({stripe}) => {
+    const navigate = useNavigate();
     const classes = style();
     const [activeStep, setActiveStep] = useState(0);
     const [loading, setLoading] = useState(false);
@@ -87,8 +89,17 @@ const Steppers = ({stripe}) => {
             }
            
         } else if(activeStep === 2)  {
-            await db.collection('Buyers').doc(currentUser.uid).set(formValues)
-            console.log(formValues)
+            if(formValues.randomnumber){
+                await db.collection('Buyers').doc(currentUser.uid).set(formValues)
+                console.log(formValues)
+                alert('Information Saved Successfully , thank you !')
+                navigate("/")
+
+
+            }else{
+                alert('Please generate number first')
+            }
+           
         
         }else{
             setActiveStep(prevActiveStep => prevActiveStep + 1);

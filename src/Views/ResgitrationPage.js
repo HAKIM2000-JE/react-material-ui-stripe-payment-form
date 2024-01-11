@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import "./resgistrationPage.css"
 import { useNavigate } from 'react-router-dom';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 
 const RegistrationPage = () => {
     const navigate = useNavigate();
@@ -15,10 +17,15 @@ const RegistrationPage = () => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Add your registration logic here, such as sending data to a server
     console.log('Form submitted:', formData);
+     // Add your registration logic here, such as sending data to a server
+     const userCredential = await firebase.auth().createUserWithEmailAndPassword(formData.email, formData.password).catch((e)=>console.log(e));
+     const userInstance = userCredential.user;
+     console.log('Form submitted:', formData);
+     navigate("/home")
   };
 
   return (

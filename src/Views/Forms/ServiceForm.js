@@ -5,11 +5,13 @@ import {
     Typography,
     Button
 } from "@material-ui/core";
+import { useNavigate } from 'react-router-dom';
 import { useStateValue } from "../../StateContext";
 
 const ServiceForm = () => {
     const [{ formValues }, dispatch] = useStateValue();
     const [number,setNumber]=useState("")
+    const navigate = useNavigate();
 
     useEffect(()=>{
         console.log(formValues)
@@ -34,7 +36,7 @@ const ServiceForm = () => {
         console.log(number)
         dispatch({
             type: "editFormValue",
-            key: "number",
+            key: "RandomNumber",
             value: number
         })
         return randomNumber;
