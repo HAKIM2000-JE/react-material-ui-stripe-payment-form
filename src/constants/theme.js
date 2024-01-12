@@ -26,13 +26,13 @@ let theme = {
       },
       "primary": {
         "light": "#7dafc2",
-        "main": "#5d9cb3",
+        "main": "#c20508",
         "dark": "#416d7d",
         "contrastText": "#fff"
       },
       "secondary": {
         "light": "#ff4081",
-        "main": "#f50057",
+        "main": "#1E2237",
         "dark": "#c51162",
         "contrastText": "#fff"
       },

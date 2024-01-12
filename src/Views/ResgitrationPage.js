@@ -59,7 +59,7 @@ const RegistrationPage = () => {
           required
         />
 
-        <button type="submit">Register</button>
+        <button  style={{backgroundColor:"#c20508"}} type="submit">Register</button>
         <span>Already have account? <a style={{color:"blue", cursor:"pointer" }}  onClick={() => navigate('/')} >Connect here</a></span>
       </form>
     </div>

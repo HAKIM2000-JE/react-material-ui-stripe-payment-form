@@ -33,6 +33,12 @@ import {
 const style = makeStyles(theme => ({
     button: {
         marginRight: theme.spacing(1),
+        background:"#c20508"
+        
+    },
+    buttonBack: {
+        marginRight: theme.spacing(1),
+        
     },
     mainBox: {
         position: "relative",
@@ -158,7 +164,7 @@ const Steppers = ({stripe}) => {
                         <Grid container spacing={3}>
                             <StepContent step={activeStep} />
                             <Grid container item justify="flex-end">
-                                <Button disabled={activeStep === 0} className={classes.button} onClick={handleBack}>
+                                <Button disabled={activeStep === 0} className={classes.buttonBack} onClick={handleBack}>
                                     Back
                                     </Button>
                                 <Button

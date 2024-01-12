@@ -22,7 +22,7 @@ const App = () => (
       <StateProvider>
         <div style={{ flexGrow: 1 }}>
           {/* Header is always displayed */}
-          <Header title="Get your Elo Key Number" logoLink="logo.svg" />
+          <Header title="Get your Elo Key Number" logoLink="elo.jpg" />
 
           {/* Main content with React Router DOM */}
           <Routes>

@@ -53,7 +53,7 @@ const LoginPage = () => {
           onChange={handleChange}
           required
         />
-        <button type="submit">Login</button>
+        <button style={{backgroundColor:"#c20508"}} type="submit">Login</button>
         <span>First time? <a   style={{color:"blue", cursor:"pointer" }}  onClick={() => navigate('/register')} >create you account here</a></span>
 
       </form>

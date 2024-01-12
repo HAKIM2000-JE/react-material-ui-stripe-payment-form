@@ -11,7 +11,8 @@ const useStyles = makeStyles((theme) => ({
     topAppBar: {
         Height: "20vh",
         minHeight: "150px",
-        marginBottom:20
+        marginBottom:20,
+        backgroundColor:"#c20508"
 
     },
     toolbar: {
@@ -24,7 +25,8 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
         alignSelf: 'flex-end',
         verticalAlign: 'middle',
-        display: 'inline-flex'
+        display: 'inline-flex',
+        color:"white"
     },
 }));
 
@@ -38,7 +40,7 @@ const AppBars = ({ title, logoLink }) => {
                 {title !== undefined &&
                     <Grid container item direction="row" alignItems="center" xs={12} sm={6}>
                         <Grid item>
-                            {logoLink !== undefined && <img src={`./${logoLink}`} alt="logo" height="70px" />}
+                            {logoLink !== undefined && <img src={`./${logoLink}`} alt="logo" height="110px" />}
                         </Grid>
                         <Grid item>
                             <Typography className={classes.title} variant="h4" noWrap color="primary">
