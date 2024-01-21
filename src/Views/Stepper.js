@@ -86,25 +86,53 @@ const Steppers = ({stripe}) => {
     const [cardMessage, setCardMessage] = useState("");
     const [{ formValues }, dispatch] = useStateValue();
     const currentUser= getAuth().currentUser
+
+    function generateRandomNumber() {
+        const isRepeated = (num) => /^(.)\1*$/.test(num.toString()); // Check for repeated digits
+      
+        let randomNumber;
+      
+        do {
+          randomNumber = Math.floor(Math.random() * 100000); // Generate a random number between 0 and 99999
+        } while (
+          isRepeated(randomNumber) ||     // Check for repeated digits
+          (randomNumber > 0 && randomNumber < 100) ||   // Exclude numbers between 1 and 99
+          randomNumber === 0 ||            // Exclude 0
+          randomNumber === 100 ||          // Exclude 100
+          randomNumber === 1000 ||         // Exclude 1000
+          randomNumber === 10000           // Exclude 10000
+        );
+      
+       
+        dispatch({
+            type: "editFormValue",
+            key: "RandomNumber",
+            value: randomNumber
+        })
+        return randomNumber;
+      }
+
+
+
     const handleNext =  async () => {
         if (activeStep === 1 ) {
             if(formValues.paid){
+                generateRandomNumber()
+            
                 setActiveStep(prevActiveStep => prevActiveStep + 1);
             }else{
                 alert("Sorry but you have to pay first !")
             }
            
         } else if(activeStep === 2)  {
-            if(formValues.randomnumber){
+          
                 await db.collection('Buyers').doc(currentUser.uid).set(formValues)
                 console.log(formValues)
                 alert('Information Saved Successfully , thank you !')
                 navigate("/")
 
 
-            }else{
-                alert('Please generate number first')
-            }
+           
            
         
         }else{

@@ -72,7 +72,7 @@ const ContactForm = () => {
         </Grid>
         <Grid item xs={12} sm={4}>
             <TextField
-                label="First Name"
+                label="Name"
                 name="firstname"
                 variant="outlined"
                 required
@@ -89,7 +89,7 @@ const ContactForm = () => {
         </Grid>
         <Grid item xs={12} sm={4}>
             <TextField
-                label="Last Name"
+                label="Nick Name"
                 name="lastname"
                 variant="outlined"
                 required
@@ -123,7 +123,7 @@ const ContactForm = () => {
         </Grid>
         <Grid item xs={12} sm={6}>
             <TextField
-                label="Street Address 1"
+                label="Something about you"
                 name="address1"
                 variant="outlined"
                 required
@@ -143,7 +143,7 @@ const ContactForm = () => {
         </Grid>
         <Grid item xs={12} sm={4}>
             <TextField
-                label="Postal Code"
+                label="Age"
                 name="postal_code"
                 variant="outlined"
                 required
