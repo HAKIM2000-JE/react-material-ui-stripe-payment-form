@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     topAppBar: {
         Height: "20vh",
         minHeight: "150px",
-        marginBottom:20,
+        marginBottom:0,
         backgroundColor:"#c20508"
 
     },

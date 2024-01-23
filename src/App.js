@@ -12,6 +12,8 @@ import LegalNoticePopup from "./Views/LegalNoticePopups/LegalNoticePopup";
 import RegistrationPage from './Views/ResgitrationPage';
 import LoginPage from './Views/Login';
 import StripeProvider from './components/StripeProvider';
+import ProfileCard from './Views/Profile';
+import Navbar from './Views/Navbar';
 
 const promise = loadStripe("pk_test_51HpgOfESTacQj7cFapgiHwtCBCNNfw44k82IX3qfsUEn59PEHl2GijrntIlZL3oundNmzBUp87WsdZLVwcLTchqp006Nq3vz5v")
 
@@ -22,8 +24,9 @@ const App = () => (
       <StateProvider>
         <div style={{ flexGrow: 1 }}>
           {/* Header is always displayed */}
-          <Header title="Get your Elo Key Number" logoLink="elo.jpg" />
-
+   
+          <Navbar/>
+          
           {/* Main content with React Router DOM */}
           <Routes>
             {/* Define your routes here */}
@@ -34,14 +37,10 @@ const App = () => (
                   <Elements stripe={promise}>
                   <Main />
                   </Elements>
-              
-        
-        
-            
-            
             } />
-            {/* Add more routes as needed */}
+             <Route path="/profile"  exact element={<ProfileCard/>}  />
           </Routes>
+          <br/><br/><br/>
 
           {/* Footer is always displayed */}
           <Footer />

@@ -29,7 +29,7 @@ const RegistrationPage = () => {
   };
 
   return (
-    <div className="container">
+    <div className="containerLogin" style={{marginTop:"50px"}}>
       <h2>Registration</h2>
       <form onSubmit={handleSubmit}>
         <label>Email:</label>

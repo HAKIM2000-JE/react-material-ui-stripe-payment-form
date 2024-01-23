@@ -22,6 +22,7 @@
     "react-stripe-elements": "^6.1.2",
     "react-stripe-js": "^1.1.5",
     "react-stripe-modal": "^1.1.0",
+    "sass": "^1.70.0",
     "stripe": "^8.222.0"
   },
   "scripts": {

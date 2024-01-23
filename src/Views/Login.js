@@ -25,15 +25,23 @@ const LoginPage = () => {
 
   const handleSubmit =async (e) => {
     e.preventDefault();
-    // Add your registration logic here, such as sending data to a server
+    try {
+      // Add your registration logic here, such as sending data to a server
     const userCredential = await firebase.auth().signInWithEmailAndPassword(formData.email, formData.password).catch((e)=>console.log(e));
     const userInstance = userCredential.user;
     console.log('Form submitted:', formData);
-    navigate("/home")
+    navigate("/profile")
+      
+    } catch (error) {
+
+      alert("Connexion Error !")
+      
+    }
+    
   };
 
   return (
-    <div className="container">
+    <div className="containerLogin" style={{marginTop:"50px"}}>
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <label>Email:</label>
