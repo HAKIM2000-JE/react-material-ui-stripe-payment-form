@@ -28,7 +28,6 @@ const LoginPage = () => {
     try {
       // Add your registration logic here, such as sending data to a server
     const userCredential = await firebase.auth().signInWithEmailAndPassword(formData.email, formData.password).catch((e)=>console.log(e));
-    const userInstance = userCredential.user;
     console.log('Form submitted:', formData);
     navigate("/profile")
       

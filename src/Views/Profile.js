@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import "./Profile.css"
 import {db,auth} from "../firebase"
 import { useNavigate } from 'react-router-dom';
+import { FaFacebook , FaTwitter, FaInstagram} from "react-icons/fa";
 const CardComponent = (props) => {
   return (
     <div className="card">
@@ -17,7 +18,7 @@ const CardComponent = (props) => {
           <img src={props.imageLink} alt="" />
           <div className="heading-box">
             <h1>{props.lastname}</h1>
-            <h3>{props.line1} <span><i className="material-icons">location_city</i> Warsaw, PL</span></h3>
+            <h3>{props.line1} <span><i className="material-icons"> {props.country}  </i> </span></h3>
           </div>
         </div>
         <div className="button-box">
@@ -25,20 +26,14 @@ const CardComponent = (props) => {
         </div>
       </header>
       <main className="card-main">
-        <div className="activity">
-          <i className="material-icons">group</i>
-          <span className="activity-name">Followers</span>
-          <span className="index">{props.friends}</span>
+        <div className="activity" style={{fontSize:"30px"}} >
+        <FaFacebook />
         </div>
         <div className="activity">
-          <i className="material-icons">access_time</i>
-          <span className="activity-name">Activity</span>
-          <span className="index">225</span>
+        <FaTwitter style={{fontSize:"30px"}} />
         </div>
         <div className="activity">
-          <i className="material-icons">mode_comment</i>
-          <span className="activity-name">Posts</span>
-          <span className="index">146</span>
+            <FaInstagram  style={{fontSize:"30px"}}/>
         </div>
       </main>
     </div>
@@ -62,19 +57,19 @@ const ProfileCard = () => {
     }
   });
   const [numberText, setNumberText] = useState("Loading");
-
-  useEffect(async ()=>{
+  const loadData = async()=>{
     if(currentUser?.uid){
         console.log(currentUser.uid)
-        const snap= await db.collection('Buyers').doc(currentUser.uid).get()
-     setProfileOwner(snap.data())
-     setNumberText(snap.data()?.randomnumber)
-
+        const snap=  await db.collection('Buyers').doc(currentUser.uid).get()
+         setProfileOwner(snap?.data())
+        setNumberText(snap?.data()?.randomnumber)
     }else{
         navigate("/")
     }
-     
-     
+  }
+
+  useEffect(()=>{
+    loadData()
   },[])
 
 
@@ -139,6 +134,7 @@ const ProfileCard = () => {
       lastname={profileOwner?.lastname}
       line1={profileOwner?.line1}
       imageLink={profileOwner?.imagelink}
+      country={profileOwner?.country?.name}
     />
   );
 }
