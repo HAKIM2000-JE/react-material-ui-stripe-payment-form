@@ -254,20 +254,39 @@ export default  PaymentForm;
 const currencies = [
     {
         "symbol": "AED",
-        "name": "Regular",
+        "name": "3 digits",
         "symbol_native": "د.إ.‏",
-        "decimal_digits": 2,
+        "decimal_digits": 3,
         "rounding": 0,
         "code": "20$",
         "name_plural": "UAE dirhams"
     },
     {
         "symbol": "Af",
-        "name": "Special",
+        "name": "4 digits",
         "symbol_native": "؋",
-        "decimal_digits": 0,
+        "decimal_digits": 4,
         "rounding": 0,
         "code": "50$",
         "name_plural": "Afghan Afghanis"
     },
+    {
+        "symbol": "Af",
+        "name": "5 digits",
+        "symbol_native": "؋",
+        "decimal_digits": 5,
+        "rounding": 0,
+        "code": "50$",
+        "name_plural": "Afghan Afghanis"
+    },
+    {
+        "symbol": "Af",
+        "name": "6 digits",
+        "symbol_native": "؋",
+        "decimal_digits": 6,
+        "rounding": 0,
+        "code": "50$",
+        "name_plural": "Afghan Afghanis"
+    },
+    
 ]
