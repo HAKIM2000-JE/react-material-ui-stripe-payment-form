@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
     boxWrapper: {
         marginBottom: "10px",
         minHeight: "calc(26vh + 260px)",
-        marginTop:"55px"
+        marginTop:"125px"
     },
     container: {
         position: "relative",

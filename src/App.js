@@ -14,6 +14,7 @@ import LoginPage from './Views/Login';
 import StripeProvider from './components/StripeProvider';
 import ProfileCard from './Views/Profile';
 import Navbar from './Views/Navbar';
+import UserTable from './Views/UserTable';
 
 const promise = loadStripe("pk_test_51HpgOfESTacQj7cFapgiHwtCBCNNfw44k82IX3qfsUEn59PEHl2GijrntIlZL3oundNmzBUp87WsdZLVwcLTchqp006Nq3vz5v")
 
@@ -33,12 +34,13 @@ const App = () => (
             <Route path="/" exact element={<LoginPage />} />
             <Route path="/register" exact element={<RegistrationPage />} />
              
-            <Route path="/home" exact element={
+            <Route path="/purchase" exact element={
                   <Elements stripe={promise}>
                   <Main />
                   </Elements>
             } />
-             <Route path="/profile/:userId"  exact element={<ProfileCard/>}  />
+             <Route path="/profile/:userId"   element={<ProfileCard/>}  />
+             <Route path='/search'  element={<UserTable/>} />
           </Routes>
           <br/><br/><br/>
 
