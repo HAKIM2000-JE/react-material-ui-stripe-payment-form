@@ -18,11 +18,13 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-icons": "^5.0.1",
+    "react-modal": "^3.16.1",
     "react-router-dom": "^6.21.1",
     "react-scripts": "3.4.1",
     "react-stripe-elements": "^6.1.2",
     "react-stripe-js": "^1.1.5",
     "react-stripe-modal": "^1.1.0",
+    "react-switch": "^7.0.0",
     "sass": "^1.70.0",
     "stripe": "^8.222.0"
   },

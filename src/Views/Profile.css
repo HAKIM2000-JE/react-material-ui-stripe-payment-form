@@ -157,7 +157,12 @@ img {
   padding-top: 5%;
   flex-direction: row;
 }
-
+.card-editButton{
+  background-color: #c20508;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+}
 @media (min-width: var(--breakpoint)) {
   .button-box {
     width: 30%;

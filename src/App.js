@@ -38,7 +38,7 @@ const App = () => (
                   <Main />
                   </Elements>
             } />
-             <Route path="/profile"  exact element={<ProfileCard/>}  />
+             <Route path="/profile/:userId"  exact element={<ProfileCard/>}  />
           </Routes>
           <br/><br/><br/>
 
