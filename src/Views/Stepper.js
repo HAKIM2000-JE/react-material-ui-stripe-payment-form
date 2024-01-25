@@ -87,37 +87,42 @@ const Steppers = ({stripe}) => {
     const [{ formValues }, dispatch] = useStateValue();
     const currentUser= getAuth().currentUser
 
-    function generateRandomNumber() {
+    function generateRandomNumber(numDigits) {
         const isRepeated = (num) => /^(.)\1*$/.test(num.toString()); // Check for repeated digits
-      
+    
+        if (numDigits <= 0) {
+            console.error("Number of digits should be greater than 0");
+            return null;
+        }
+    
+        let minRange = Math.pow(10, numDigits - 1);
+        let maxRange = Math.pow(10, numDigits) - 1;
+    
         let randomNumber;
-      
+    
         do {
-          randomNumber = Math.floor(Math.random() * 100000); // Generate a random number between 0 and 99999
+            randomNumber = Math.floor(Math.random() * (maxRange - minRange + 1)) + minRange; // Generate a random number within the specified range
         } while (
-          isRepeated(randomNumber) ||     // Check for repeated digits
-          (randomNumber > 0 && randomNumber < 100) ||   // Exclude numbers between 1 and 99
-          randomNumber === 0 ||            // Exclude 0
-          randomNumber === 100 ||          // Exclude 100
-          randomNumber === 1000 ||         // Exclude 1000
-          randomNumber === 10000           // Exclude 10000
+            isRepeated(randomNumber) ||  // Check for repeated digits
+            (randomNumber > 0 && randomNumber < 10) ||   // Exclude single-digit numbers
+            randomNumber === 0            // Exclude 0
         );
-      
-       
+    
         dispatch({
             type: "editFormValue",
             key: "RandomNumber",
             value: randomNumber
-        })
+        });
+    
         return randomNumber;
-      }
-
+    }
+    
 
 
     const handleNext =  async () => {
         if (activeStep === 1 ) {
             if(formValues.paid){
-                generateRandomNumber()
+                generateRandomNumber(formValues.numbertype)
             
                 setActiveStep(prevActiveStep => prevActiveStep + 1);
             }else{
@@ -129,7 +134,7 @@ const Steppers = ({stripe}) => {
                 await db.collection('Buyers').doc(currentUser.uid).set(formValues)
                 console.log(formValues)
                 alert('Information Saved Successfully , thank you !')
-                navigate("/")
+                navigate("/search")
 
 
            

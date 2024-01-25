@@ -68,6 +68,7 @@ const ContactForm = () => {
 
     return <>
         <Grid item xs={12}>
+        <br/>
             <Typography variant="h6">Contact information</Typography>
         </Grid>
         <Grid item xs={12} sm={4}>

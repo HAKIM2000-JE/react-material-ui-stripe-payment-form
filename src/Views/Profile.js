@@ -29,6 +29,7 @@ const CardComponent = (props) => {
   const [facebook, setFacebook]=useState(props.facebook)
   const [twitter, setTwitter]=useState(props.twitter)
   const [instagram, setInstagram]=useState(props.instagram)
+  const { userId } = useParams();
 
   const handleFacebookChange = (checked) => {
     setFacebookMedia(checked)
@@ -99,15 +100,23 @@ const CardComponent = (props) => {
       
       </header>
       <main className="card-main">
-        <div className="activity" style={{fontSize:"30px"}} >
-        <FaFacebook />
-        </div>
-        <div className="activity">
-        <FaTwitter style={{fontSize:"30px"}} />
-        </div>
-        <div className="activity">
-            <FaInstagram  style={{fontSize:"30px"}}/>
-        </div>
+        
+        <a href={props.facebook} className="activity" target="_blank" rel="noopener noreferrer">
+            <div >
+            <FaFacebook />
+            </div>
+        </a>
+        <a href={props.twitter} className="activity" target="_blank" rel="noopener noreferrer">
+            <div >
+            <FaTwitter style={{fontSize:"30px"}} />
+            </div>
+        </a>
+       
+        <a href={props.instagram} className="activity" target="_blank" rel="noopener noreferrer">
+            <div >
+              <FaInstagram style={{ fontSize: "30px" }} />
+            </div>
+        </a>
       </main>
 
 
@@ -182,11 +191,21 @@ const ProfileCard = () => {
   });
   const [numberText, setNumberText] = useState("Loading");
   const loadData = async()=>{
+    console.log(currentUser?.uid)
     if(currentUser?.uid){
-        console.log(currentUser.uid)
-        const snap=  await db.collection('Buyers').doc(userId).get()
+        if(userId===undefined){
+         
+        const snap=  await db.collection('Buyers').doc(currentUser.uid).get()
          setProfileOwner(snap?.data())
         setNumberText(snap?.data()?.randomnumber)
+           
+        }else{
+          console.log(currentUser.uid,userId)
+        const snap=  await db.collection('Buyers').doc(!userId?currentUser.uid:userId).get()
+         setProfileOwner(snap?.data())
+        setNumberText(snap?.data()?.randomnumber)
+        }
+        
     }else{
         navigate("/")
     }

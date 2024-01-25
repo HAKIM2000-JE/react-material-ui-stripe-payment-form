@@ -2,16 +2,18 @@
 import React, { useState, useEffect } from 'react';
 import './UserTable.css'; // Import your CSS file
 import {db} from "../firebase"
+import { useNavigate } from 'react-router-dom';
 const UserTable = () => {
     const [users, setUsers] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
-  
+    const navigate = useNavigate();
     useEffect(() => {
       const fetchData = async () => {
         try {
           const snapshot = await db.collection('Buyers').get();
           const usersData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
           setUsers(usersData);
+          
         } catch (error) {
           console.error('Error fetching users:', error);
         }
@@ -28,6 +30,9 @@ const UserTable = () => {
       user?.randomnumber?.toString().includes(searchTerm)
     );
   
+    const chooseUser =  (uid) =>{
+      navigate("/profile/"+uid)
+    }
     return (
       <div className="user-table-container">
         <input
@@ -48,7 +53,7 @@ const UserTable = () => {
           </thead>
           <tbody>
             {filteredUsers.map(user => (
-              <tr key={user.randomnumber} style={{cursor:"pointer"}} >
+              <tr key={user.randomnumber} style={{cursor:"pointer"}}  onClick={()=>chooseUser(user.id)} >
               <td>
                   {user.imagelink && <img src={user.imagelink} alt="User" className="user-image" />}
                 </td>

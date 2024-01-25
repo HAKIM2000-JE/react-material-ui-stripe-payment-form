@@ -103,8 +103,9 @@ const PaymentForm = ({onSubmit}) => {
         dispatch({
             type: "editFormValue",
             key: "numberType",
-            value: amount=="20$"?"regular":"special"
+            value: amount=="15$"?6:amount=="20$"?5:amount=="100$"?4:amount=="2500$"?3:7
         })
+        
         setError('Payement Accepted , click Next to get your code');
 
       }else{
@@ -121,21 +122,23 @@ const PaymentForm = ({onSubmit}) => {
 
     return <>
         <Grid container item xs={12}>
+        <br/>
             <Grid item xs={12} sm={3}>
                 <Typography variant="h6">Payment Data</Typography>
             </Grid>
-            <Grid container item xs={12} sm={9} justify="space-between">
+            {/*<Grid container item xs={12} sm={9} justify="space-between">
                 {cardsLogo.map(e => <img key={e} src={`./cards/${e}.png`} alt={e} width="50px" align="bottom" style={{ padding: "0 5px" }} />)}
-            </Grid>
+    </Grid>*/}
         </Grid>
         <Grid item xs={6} sm={3}>
+            
             <Autocomplete
                 options={currencies}
-                getOptionLabel={option => option.name}
-                renderOption={option => <>{option.name} ({option.code})</>}
+                getOptionLabel={option => option.decimal_digits}
+                renderOption={option => <>{option.decimal_digits} ({option.code})</>}
                 renderInput={params =>
                     <TextField
-                        label="Type of code"
+                        label="Number of Digits"
                         name="currency"
                         variant="outlined"
                         fullWidth
@@ -256,36 +259,36 @@ const currencies = [
         "symbol": "AED",
         "name": "3 digits",
         "symbol_native": "د.إ.‏",
-        "decimal_digits": 3,
+        "decimal_digits": "3",
         "rounding": 0,
-        "code": "20$",
+        "code": "2500$",
         "name_plural": "UAE dirhams"
     },
     {
         "symbol": "Af",
         "name": "4 digits",
         "symbol_native": "؋",
-        "decimal_digits": 4,
+        "decimal_digits": "4",
         "rounding": 0,
-        "code": "50$",
+        "code": "100$",
         "name_plural": "Afghan Afghanis"
     },
     {
         "symbol": "Af",
         "name": "5 digits",
         "symbol_native": "؋",
-        "decimal_digits": 5,
+        "decimal_digits": "5",
         "rounding": 0,
-        "code": "50$",
+        "code": "20$",
         "name_plural": "Afghan Afghanis"
     },
     {
         "symbol": "Af",
         "name": "6 digits",
         "symbol_native": "؋",
-        "decimal_digits": 6,
+        "decimal_digits": "6",
         "rounding": 0,
-        "code": "50$",
+        "code": "15$",
         "name_plural": "Afghan Afghanis"
     },
     

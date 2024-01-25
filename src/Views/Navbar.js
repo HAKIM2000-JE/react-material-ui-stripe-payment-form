@@ -1,13 +1,26 @@
-import React from 'react';
+import React ,  {useEffect, useState} from 'react';
 import { NavLink } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { getAuth } from 'firebase/auth';
+
 import "./navbar.css"
-const Navbar = () => {
+import { useScrollTrigger } from '@material-ui/core';
+const Navbar = (props) => {
   const [showNavbar, setShowNavbar] = React.useState(false);
+  const [uid,setUid]=useState("")
+  const { userId } = useParams();
 
-  const handleShowNavbar = () => {
+  const handleShowNavbar = async () => {
     setShowNavbar(!showNavbar);
+    
   };
-
+  const updateUid= async ()=>{
+    const id= await getAuth().currentUser?.uid
+    setUid(id)
+  }
+  useEffect(()=>{
+    updateUid()
+  },[])
   return (
     <nav className="navbar">
       <div className="container">
@@ -23,7 +36,7 @@ const Navbar = () => {
               <NavLink to="/purchase">Get your ID</NavLink>
             </li>
             <li>
-              <NavLink to="/profile">Profile</NavLink>
+              <NavLink to={`/profile/${uid}`} >Profile</NavLink>
             </li>
             <li>
               <NavLink to="/search">Search</NavLink>

@@ -15,10 +15,12 @@ import StripeProvider from './components/StripeProvider';
 import ProfileCard from './Views/Profile';
 import Navbar from './Views/Navbar';
 import UserTable from './Views/UserTable';
+import { auth } from './firebase';
 
 const promise = loadStripe("pk_test_51HpgOfESTacQj7cFapgiHwtCBCNNfw44k82IX3qfsUEn59PEHl2GijrntIlZL3oundNmzBUp87WsdZLVwcLTchqp006Nq3vz5v")
-
+const  currentUser= auth.currentUser
 const App = () => (
+
   <Router>
     <ThemeProvider theme={theme}>
     <StripeProvider>
@@ -26,7 +28,7 @@ const App = () => (
         <div style={{ flexGrow: 1 }}>
           {/* Header is always displayed */}
    
-          <Navbar/>
+          <Navbar userId={currentUser?.uid} />
           
           {/* Main content with React Router DOM */}
           <Routes>
