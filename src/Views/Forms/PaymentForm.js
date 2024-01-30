@@ -13,9 +13,11 @@ import { useStateValue } from "../../StateContext";
 import StripeInput from '../../components/StripeInput'
 import { CardElement , useStripe , useElements } from  '@stripe/react-stripe-js';
 import axios from 'axios';
+import {db} from "../../firebase"
+import Select from 'react-select'
 
 
-const PaymentForm = ({onSubmit}) => {
+const PaymentForm = ({onSubmit, isSpecial}) => {
 
     const [{ formValues }, dispatch] = useStateValue();
     const  [amount, setAmount]=useState("")
@@ -23,10 +25,37 @@ const PaymentForm = ({onSubmit}) => {
     const elements = useElements();
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const [specials,setSpecials]=useState([])
     
+    const loadData =  async()=>{
+      let snap= await db.collection('Specials').doc('0').get()
+     
+      let numbers=snap.data()
+      let data = numbers.Numbers.filter((num)=>!num.isPaid).map((num) => ({ value: num.Price, label: num.Digit }));
 
+      setSpecials(data)
+      console.log(data)
+    }
+
+    const handleChange = (selectedOption) => {
+        // Do something with the selected option
+        console.log('Selected option:', selectedOption);
+        setAmount(selectedOption.value)
+                        dispatch({
+                            type: "editFormValue",
+                            key: "amount",
+                            value: selectedOption.value
+                        })
+      }
+
+      
     useEffect(()=>{
-        console.log(formValues)
+        console.log(isSpecial)
+        if(isSpecial){
+            loadData()
+        }
+       
+
     },[])
     function extractNumberFromString(currencyString) {
         // Remove any non-digit characters from the string
@@ -103,7 +132,7 @@ const PaymentForm = ({onSubmit}) => {
         dispatch({
             type: "editFormValue",
             key: "numberType",
-            value: amount=="15$"?6:amount=="20$"?5:amount=="100$"?4:amount=="2500$"?3:7
+            value: isSpecial? specials.filter(num=>num.value==amount)[0].label : amount=="15$"?6:amount=="20$"?5:amount=="100$"?4:amount=="2500$"?3:7
         })
         
         setError('Payement Accepted , click Next to get your code');
@@ -131,35 +160,47 @@ const PaymentForm = ({onSubmit}) => {
     </Grid>*/}
         </Grid>
         <Grid item xs={6} sm={3}>
+            {
+                isSpecial ?(
+                    
+                    <Select options={specials}   onChange={handleChange} />
+           
+                ):
+                (
+                    <Autocomplete
+                    options={currencies}
+                    getOptionLabel={option => option.decimal_digits}
+                    renderOption={option => <>{option.decimal_digits} ({option.code})</>}
+                    renderInput={params =>
+                        <TextField
+                            label="Number of Digits"
+                            name="currency"
+                            variant="outlined"
+                            fullWidth
+                            {...params}
+                        />
+                    }
+                    value={formValues.currency}
+                    onChange={(event, value) => {
+                        setAmount(value?.code)
+                        dispatch({
+                            type: "editFormValue",
+                            key: "amount",
+                            value: value?.code
+                        })
+                        dispatch({
+                            type: "editFormValue",
+                            key: "currency",
+                            value: value
+                        })
+                    }}
+                />
+                )
+
+                
+            }
             
-            <Autocomplete
-                options={currencies}
-                getOptionLabel={option => option.decimal_digits}
-                renderOption={option => <>{option.decimal_digits} ({option.code})</>}
-                renderInput={params =>
-                    <TextField
-                        label="Number of Digits"
-                        name="currency"
-                        variant="outlined"
-                        fullWidth
-                        {...params}
-                    />
-                }
-                value={formValues.currency}
-                onChange={(event, value) => {
-                    setAmount(value?.code)
-                    dispatch({
-                        type: "editFormValue",
-                        key: "amount",
-                        value: value?.code
-                    })
-                    dispatch({
-                        type: "editFormValue",
-                        key: "currency",
-                        value: value
-                    })
-                }}
-            />
+           
         </Grid>
         <Grid item xs={6} sm={3}>
             <TextField

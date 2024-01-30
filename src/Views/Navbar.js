@@ -36,13 +36,13 @@ const Navbar = (props) => {
               <NavLink to="/purchase">Get your ID</NavLink>
             </li>
             <li>
-              <NavLink to={`/profile/${uid}`} >Profile</NavLink>
+              <NavLink to={`/Myprofile/${uid}`} >Profile</NavLink>
             </li>
             <li>
               <NavLink to="/search">Search</NavLink>
             </li>
             <li>
-              <NavLink to="/about">Specials</NavLink>
+              <NavLink to="/specials">Specials</NavLink>
             </li>
             <li>
               <NavLink to="/contact">About</NavLink>

@@ -20,8 +20,9 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const Main = ({stripe}) => {
+const Main = ({stripe, isSepcial}) => {
     const classes = useStyles();
+    console.log(isSepcial)
     
     const [stripePromise, setStripePromise] = useState(null)
 
@@ -43,7 +44,7 @@ const Main = ({stripe}) => {
             <Paper elevation={5}>
                 {stripePromise
                     ? <Elements stripe={stripePromise}>
-                        <CustomizedSteppers  stripe={stripe} />
+                        <CustomizedSteppers  stripe={stripe}  isSpecial={isSepcial} />
                     </Elements>
                     : null
                 }

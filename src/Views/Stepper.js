@@ -62,13 +62,13 @@ const style = makeStyles(theme => ({
     },
 }));
 
-const StepContent = ({ step }) => {
+const StepContent = ({ step , isSepcial}) => {
     switch (step) {
         case 0:
             return <ContactForm />;
             
         case 1:
-            return <PaymentForm />;
+            return <PaymentForm isSpecial={isSepcial} />;
         case 2:
            
             return <ServiceForm />;
@@ -77,7 +77,7 @@ const StepContent = ({ step }) => {
     }
 }
 
-const Steppers = ({stripe}) => {
+const Steppers = ({stripe, isSpecial}) => {
     const navigate = useNavigate();
     const classes = style();
     const [activeStep, setActiveStep] = useState(0);
@@ -86,35 +86,48 @@ const Steppers = ({stripe}) => {
     const [cardMessage, setCardMessage] = useState("");
     const [{ formValues }, dispatch] = useStateValue();
     const currentUser= getAuth().currentUser
+    console.log(isSpecial)
 
-    function generateRandomNumber(numDigits) {
-        const isRepeated = (num) => /^(.)\1*$/.test(num.toString()); // Check for repeated digits
+    function generateRandomNumber(numDigits, isSepcial) {
+        console.log(isSepcial)
+        if(isSepcial){
+            dispatch({
+                type: "editFormValue",
+                key: "RandomNumber",
+                value: numDigits
+            });
+            return numDigits
+        }else{
+            const isRepeated = (num) => /^(.)\1*$/.test(num.toString()); // Check for repeated digits
     
-        if (numDigits <= 0) {
-            console.error("Number of digits should be greater than 0");
-            return null;
+            if (numDigits <= 0) {
+                console.error("Number of digits should be greater than 0");
+                return null;
+            }
+        
+            let minRange = Math.pow(10, numDigits - 1);
+            let maxRange = Math.pow(10, numDigits) - 1;
+        
+            let randomNumber;
+        
+            do {
+                randomNumber = Math.floor(Math.random() * (maxRange - minRange + 1)) + minRange; // Generate a random number within the specified range
+            } while (
+                isRepeated(randomNumber) ||  // Check for repeated digits
+                (randomNumber > 0 && randomNumber < 10) ||   // Exclude single-digit numbers
+                randomNumber === 0            // Exclude 0
+            );
+        
+            dispatch({
+                type: "editFormValue",
+                key: "RandomNumber",
+                value: randomNumber
+            });
+        
+            return randomNumber;
+
         }
-    
-        let minRange = Math.pow(10, numDigits - 1);
-        let maxRange = Math.pow(10, numDigits) - 1;
-    
-        let randomNumber;
-    
-        do {
-            randomNumber = Math.floor(Math.random() * (maxRange - minRange + 1)) + minRange; // Generate a random number within the specified range
-        } while (
-            isRepeated(randomNumber) ||  // Check for repeated digits
-            (randomNumber > 0 && randomNumber < 10) ||   // Exclude single-digit numbers
-            randomNumber === 0            // Exclude 0
-        );
-    
-        dispatch({
-            type: "editFormValue",
-            key: "RandomNumber",
-            value: randomNumber
-        });
-    
-        return randomNumber;
+       
     }
     
 
@@ -122,7 +135,7 @@ const Steppers = ({stripe}) => {
     const handleNext =  async () => {
         if (activeStep === 1 ) {
             if(formValues.paid){
-                generateRandomNumber(formValues.numbertype)
+                generateRandomNumber(formValues.numbertype, isSpecial)
             
                 setActiveStep(prevActiveStep => prevActiveStep + 1);
             }else{
@@ -132,6 +145,7 @@ const Steppers = ({stripe}) => {
         } else if(activeStep === 2)  {
           
                 await db.collection('Buyers').doc(currentUser.uid).set(formValues)
+               
                 console.log(formValues)
                 alert('Information Saved Successfully , thank you !')
                 navigate("/search")
@@ -195,7 +209,7 @@ const Steppers = ({stripe}) => {
                     :
                     <form autoComplete="off" className={classes.form} onSubmit={e => { e.preventDefault(); handleNext() }}>
                         <Grid container spacing={3}>
-                            <StepContent step={activeStep} />
+                            <StepContent step={activeStep}  isSepcial={isSpecial} />
                             <Grid container item justify="flex-end">
                                 <Button disabled={activeStep === 0} className={classes.buttonBack} onClick={handleBack}>
                                     Back

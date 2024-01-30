@@ -21,6 +21,7 @@
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.21.1",
     "react-scripts": "3.4.1",
+    "react-select": "^5.8.0",
     "react-stripe-elements": "^6.1.2",
     "react-stripe-js": "^1.1.5",
     "react-stripe-modal": "^1.1.0",

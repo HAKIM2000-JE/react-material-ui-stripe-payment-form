@@ -81,6 +81,22 @@ const ServiceForm = () => {
                 }
             />
         </Grid>
+        <Grid item xs={12} sm={6}>
+            <TextField
+                label="Tiktok"
+                name="tiktok"
+                variant="outlined"
+                fullWidth
+                value={formValues.tiktok}
+                onChange={e =>
+                    dispatch({
+                        type: 'editFormValue',
+                        key: "tiktok",
+                        value: e.target.value
+                    })
+                }
+            />
+        </Grid>
       
     </>
 }

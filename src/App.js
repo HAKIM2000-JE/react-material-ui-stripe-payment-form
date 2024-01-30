@@ -42,7 +42,13 @@ const App = () => (
                   </Elements>
             } />
              <Route path="/profile/:userId"   element={<ProfileCard/>}  />
+             <Route path="/Myprofile/:userId"   element={<ProfileCard/>}  />
              <Route path='/search'  element={<UserTable/>} />
+             <Route path='/specials'  element={
+              <Elements stripe={promise}>
+              <Main  isSepcial={true}  />
+              </Elements>
+             } />
           </Routes>
           <br/><br/><br/>
 

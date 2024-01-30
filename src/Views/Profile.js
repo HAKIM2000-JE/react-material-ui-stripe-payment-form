@@ -2,10 +2,17 @@ import React, { useState, useEffect } from 'react';
 import "./Profile.css"
 import {db,auth} from "../firebase"
 import { useNavigate } from 'react-router-dom';
-import { FaFacebook , FaTwitter, FaInstagram} from "react-icons/fa";
+import { FaFacebook , FaTwitter, FaInstagram, FaTiktok } from "react-icons/fa";
 import { useParams } from 'react-router-dom';
 import Modal from 'react-modal';
 import Switch from 'react-switch';
+import Select from 'react-select'
+import {
+  TextField,
+  Grid,
+  Typography
+} from "@material-ui/core";
+
 const customStyles = {
   content: {
     top: '50%',
@@ -13,22 +20,38 @@ const customStyles = {
     right: 'auto',
     bottom: 'auto',
     marginRight: '-50%',
+    width:"50vw",
     transform: 'translate(-50%, -50%)',
   },
 };
+
+const options = [
+  { value: '#c20508', label: 'red' },
+  { value: 'yellow', label: 'Yellow' },
+  { value: 'blue', label: 'Blue' },
+  { value: 'pink', label: 'Pink' },
+  { value: 'orange', label: 'Orange' },
+
+]
 
 const CardComponent = (props) => {
   let subtitle
   const  currentUser= auth.currentUser
   const [modalIsOpen, setIsOpen] = React.useState(false);
-  const [showFacebooklMedia, setFacebookMedia] = useState(true);
-  const [showTwitterlMedia, setTwitterMedia] = useState(true);
-  const [showInstagramMedia, setInstagramMedia] = useState(true);
+  const [showFacebooklMedia, setFacebookMedia] = useState(props.showFacebooklMedia);
+  const [showTwitterlMedia, setTwitterMedia] = useState(props.showTwitterlMedia);
+  const [showInstagramMedia, setInstagramMedia] = useState(props.showInstagramMedia);
+  const [showTiktokMedia,setTiktokMedia]=useState(props.showTiktokMedia)
   const [Nickname, setNickname]=useState(props.lastname)
   const [about, setAbout]=useState(props.line1)
   const [facebook, setFacebook]=useState(props.facebook)
   const [twitter, setTwitter]=useState(props.twitter)
   const [instagram, setInstagram]=useState(props.instagram)
+  const [tiktok,setTiktok]=useState(props.tiktok)
+  
+
+  const [color, setColor]=useState(props.color)
+  
   const { userId } = useParams();
 
   const handleFacebookChange = (checked) => {
@@ -41,18 +64,37 @@ const CardComponent = (props) => {
    setInstagramMedia(checked)
   };
 
+  const handleTiktokChnage=(checked)=>{
+    setTiktokMedia(checked)
+  }
+
 
   function openModal() {
     setIsOpen(true);
+    setNickname(props.lastname)
+    setAbout(props.line1)
+    setFacebook(props.facebook)
+    setTiktok(props.tiktok)
+    setTwitter(props.twitter)
+    setInstagram(props.instagram)
+    setFacebookMedia(props.showFacebooklMedia)
+    setTiktokMedia(props.showTiktokMedia)
+    setTwitterMedia(props.showTwitterlMedia)
+    setInstagramMedia(props.showInstagramMedia)
+    
   }
 
-  function afterOpenModal() {
-    // references are now sync'd and can be accessed.
-    subtitle.style.color = '#f00';
-  }
+ 
 
   function closeModal() {
     setIsOpen(false);
+  }
+
+
+  const handleChange = (selectedOption) => {
+    // Do something with the selected option
+    console.log('Selected option:', selectedOption);
+    setColor(selectedOption.value)
   }
 
   const SaveInformation = async (uid)=>{
@@ -63,11 +105,20 @@ const CardComponent = (props) => {
             line1:about,
             facebook:facebook,
             twitter:twitter,
-            instagram:instagram
+            instagram:instagram, 
+            tiktok:tiktok,
+            color:color?color:"#c20508",
+            showFacebooklMedia:showFacebooklMedia,
+            showInstagramMedia:showInstagramMedia,
+            showTwitterlMedia:showTwitterlMedia,
+            showTiktokMedia:showTiktokMedia
          })   
+
+         closeModal()
     }else{
       alert("Nicke name cannot be null")
     }
+
   }
 
   return (
@@ -100,80 +151,147 @@ const CardComponent = (props) => {
       
       </header>
       <main className="card-main">
-        
-        <a href={props.facebook} className="activity" target="_blank" rel="noopener noreferrer">
+        {
+          props.showFacebooklMedia?(
+            <a href={props.facebook} className="activity" target="_blank" rel="noopener noreferrer">
             <div >
-            <FaFacebook />
+            <FaFacebook  style={{fontSize:"30px"}} />
             </div>
         </a>
-        <a href={props.twitter} className="activity" target="_blank" rel="noopener noreferrer">
+
+          ):""
+        }
+        {
+          props.showTwitterlMedia ?(
+            <a href={props.twitter} className="activity"  color='black' target="_blank" rel="noopener noreferrer">
             <div >
             <FaTwitter style={{fontSize:"30px"}} />
             </div>
         </a>
+
+          ):""
+          
+
+        }
        
-        <a href={props.instagram} className="activity" target="_blank" rel="noopener noreferrer">
+       
+       
+       {
+        props?.showInstagramMedia?(
+          <a href={props.instagram} className="activity" target="_blank" rel="noopener noreferrer">
             <div >
               <FaInstagram style={{ fontSize: "30px" }} />
             </div>
         </a>
+
+        ):""
+       }
+       
+       {
+        props?.showTiktokMedia?(
+          <a href={props.tiktok} className="activity" target="_blank" rel="noopener noreferrer">
+            <div >
+              <FaTiktok style={{ fontSize: "30px" }} />
+            </div>
+        </a>
+
+        ):""
+       }
       </main>
 
 
       <Modal
         isOpen={modalIsOpen}
-        onAfterOpen={afterOpenModal}
         onRequestClose={closeModal}
         style={customStyles}
         contentLabel="Example Modal"
       >
-        <h2 ref={(_subtitle) => (subtitle = _subtitle)}>EloKey</h2>
+
         <div>Update My information </div>
-        <form>
-          <input placeholder='Nickname' onChange={(e)=>setNickname(e.target.value)} value={Nickname} />
-          <br/>
-          <input placeholder='About you ' onChange={(e)=>setAbout(e.target.value)} value={about} />
-          <br/>
-          <input placeholder='Facebook Link' onChange={(e)=>setFacebook(e.target.value)} value={facebook}/>
+        <div>
+        <Grid item xs={12} sm={4}>
+          
+        <input placeholder='Nickname' onChange={(e)=>setNickname(e.target.value)} value={Nickname} />
+          
+          <input placeholder='About you' onChange={(e)=>setAbout(e.target.value)} value={about} />
+        
+        </Grid>
+        <Grid item xs={12} sm={4}>
+        <input placeholder='Facebook Link' onChange={(e)=>setFacebook(e.target.value)} value={facebook}/>
            <br/>
           <input placeholder='Twitter Link' onChange={(e)=>setTwitter(e.target.value)} value={twitter} />
           <br/>
-          <input placeholder='Instagram Link' onChange={(e)=>setInstagram(e.target.value)} value={instagram}/>
+        </Grid>
+        <Grid item xs={12} sm={4}>
+        <input placeholder='Instagram Link' onChange={(e)=>setInstagram(e.target.value)} value={instagram}/>
           <br/><br/>
+        </Grid>
+          
+          
+       
+
           <label>
-            Show Facebook Link
+           
             <Switch
               onChange={handleFacebookChange}
               checked={showFacebooklMedia}
             />
+              <br/>
+             Show Facebook Link
+          
          </label>
+         <br/>
          <label>
-            Show Twitter Link
+          
             <Switch
               onChange={handleTwitterChange}
               checked={showTwitterlMedia}
             />
+             <br/>
+              Show Twitter Link
+           
          </label>
+         <br/>
          <label>
-            Show Instagram Link
+           
             <Switch
               onChange={handleInstagramChange}
               checked={showInstagramMedia}
             />
+               <br/>
+             Show Instagram Link
+         
          </label>
+         <br/>
+
+         <label>
+           
+            <Switch
+              onChange={handleTiktokChnage}
+              checked={showTiktokMedia}
+            />
+               <br/>
+             Show Tiktok Link
+         
+         </label>
+         <br/>
+
+         <label>
+            Choose profile color
+            <Select options={options}   onChange={handleChange} />
+         </label>
+        
           
           <button onClick={()=>SaveInformation(currentUser.uid)}>Save your information</button>
+          <br/> <br/> 
           <button onClick={closeModal}>close</button>
-        </form>
+        </div>
       </Modal>
     </div>
   );
 }
 
 const ProfileCard = () => {
-
-  
-  
   const [profileOwner,setProfileOwner]=useState({}) 
   const  currentUser= auth.currentUser
   const navigate = useNavigate();
@@ -192,23 +310,25 @@ const ProfileCard = () => {
   const [numberText, setNumberText] = useState("Loading");
   const loadData = async()=>{
     console.log(currentUser?.uid)
+    console.log(userId)
     if(currentUser?.uid){
-        if(userId===undefined){
-         
+        if(userId && userId!="undefined"){
+        const snap=  await db.collection('Buyers').doc(userId).get()
+         setProfileOwner(snap?.data())
+        setNumberText(snap?.data()?.randomnumber)
+        console.log(profileOwner)
+        }else{
+          console.log(currentUser.uid,userId)
         const snap=  await db.collection('Buyers').doc(currentUser.uid).get()
          setProfileOwner(snap?.data())
         setNumberText(snap?.data()?.randomnumber)
-           
-        }else{
-          console.log(currentUser.uid,userId)
-        const snap=  await db.collection('Buyers').doc(!userId?currentUser.uid:userId).get()
-         setProfileOwner(snap?.data())
-        setNumberText(snap?.data()?.randomnumber)
+        console.log(profileOwner)
         }
         
     }else{
         navigate("/")
     }
+  
   }
 
   useEffect(()=>{
@@ -217,17 +337,16 @@ const ProfileCard = () => {
 
 
   const dynamicStyle = {
-    color: 'red',
+    color:   'white',
     fontSize: '50px',
     fontWeight: 'bold',
     textAlign: 'center',
     lineHeight: '30vh',
     letterSpacing: '2px',
     textShadow: '2px 2px 5px rgba(0, 0, 0, 0.5)',
-    backgroundImage: `url('https://firebasestorage.googleapis.com/v0/b/twitter-game-ed473.appspot.com/o/white-concrete-wall.jpg?alt=media&token=831a0a7d-c8ca-463d-a15c-b5819048b7a8')`,
+    background: profileOwner?.color ? profileOwner?.color : "#c20508",
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
-    filter: 'saturate(80%)',
     backgroundSize: 'cover',
     content: `"${numberText}"`, // Set the content dynamically
   };
@@ -281,7 +400,13 @@ const ProfileCard = () => {
       facebook={profileOwner?.facebook}
       twitter={profileOwner?.twitter}
       instagram={profileOwner?.instagram}
+      tiktok={profileOwner?.tiktok}
+      color={profileOwner?.color}
       isMyProfile={currentUser?.uid==userId}
+      showFacebooklMedia={profileOwner?.showFacebooklMedia}
+      showInstagramMedia={profileOwner?.showInstagramMedia}
+      showTwitterlMedia={profileOwner?.showTwitterlMedia}
+      showTiktokMedia={profileOwner?.showTiktokMedia}
     />
   );
 }

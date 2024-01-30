@@ -45,17 +45,16 @@
 
 .card:before {
   content: '26789756';
-  color: #c20508;
-  font-size: 75px; /* Changed font size to 50px */
-  font-weight: 900; /* Added bold font-weight */
+  font-size: 90px; /* Changed font size to 50px */
+  font-weight: bolder; /* Added bold font-weight */
+  color: white;
   text-align: center; /* Center align the text */
   line-height: 30vh; /* Adjust line-height to vertically center the text */
   display: block;
   letter-spacing: 10px; /* Added letter-spacing */
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.9);
+  text-shadow: 2px 5px 1px rgba(0, 0, 0, 0.9);
   width: 100%;
   height: 30vh;
-  background: url('https://firebasestorage.googleapis.com/v0/b/twitter-game-ed473.appspot.com/o/white-concrete-wall.jpg?alt=media&token=831a0a7d-c8ca-463d-a15c-b5819048b7a8') no-repeat center;
   z-index: -1 !important;
   transform: translateZ(-1px);
   background-size: cover;
@@ -68,10 +67,10 @@
   align-items: center;
   justify-content: space-between;
   position: relative;
-  top: -50px;
+  top: -20px;
   flex-direction: column;
 }
-
+a { color: inherit; } 
 @media (min-width: var(--breakpoint)) {
   .card-header {
     max-width: 960px;
@@ -111,7 +110,7 @@
 }
 
 img {
-  border-radius: 50%;
+  border:4px solid #c20508 ;
   width: 150px;
   height: auto;
 }
