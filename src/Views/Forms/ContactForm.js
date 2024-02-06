@@ -140,7 +140,8 @@ const ContactForm = () => {
             />
         </Grid>
         <Grid item xs={12} sm={6}>
-            <input type="file" id="file-input" name="ImageStyle" onChange={handleFileChange} />
+        <label htmlFor="file-input">Upload your profile Image:</label>
+            <input type="file" id="file-input"  name="ImageStyle" onChange={handleFileChange} />
         </Grid>
         <Grid item xs={12} sm={4}>
             <TextField
@@ -159,23 +160,7 @@ const ContactForm = () => {
                 }
             />
         </Grid>
-        <Grid item xs={12} sm={4}>
-            <TextField
-                label="City"
-                name="city"
-                variant="outlined"
-                required
-                fullWidth
-                value={formValues.city}
-                onChange={e =>
-                    dispatch({
-                        type: 'editFormValue',
-                        key: "city",
-                        value: e.target.value
-                    })
-                }
-            />
-        </Grid>
+       
         <Grid item xs={12} sm={4}>
             <Autocomplete
                 options={countries}

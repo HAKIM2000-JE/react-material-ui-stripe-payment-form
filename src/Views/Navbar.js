@@ -25,7 +25,7 @@ const Navbar = (props) => {
     <nav className="navbar">
       <div className="container">
         <div className="logo">
-          <Logo />
+        <img src='https://i.ibb.co/L5KxtnT/elo-removebg-preview.png' alt="Logo2" style={{ width: '120px', height: '50px' }} />
         </div>
         <div className="menu-icon" onClick={handleShowNavbar}>
           <Hamburger />

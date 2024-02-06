@@ -80,17 +80,32 @@ const PaymentForm = ({onSubmit, isSpecial}) => {
         "visaelectron",
     ];
 
+    function convertCurrencyStringToInteger(currencyString) {
+        // Remove the dollar sign and parse the remaining string as an integer
+        const integerValue = parseInt(currencyString.replace('$', ''), 10);
+      
+        // Check if the result is a valid integer
+        if (isNaN(integerValue)) {
+          console.error('Invalid currency format');
+          return null; // or handle the error accordingly
+        }
+      
+        return integerValue;
+      }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
       console.log(amount)
 
-      let total=0
-      if(amount=="20$"){
-        total=20
-      }else{
-        total=50
-      }
+  
+    //   if(amount=="20$"){
+    //     total=20
+    //   }else{
+    //     total=50
+    //   }
+   let total=convertCurrencyStringToInteger(amount)
+    console.log(total)
     
         try {
              const response = await axios({
@@ -169,8 +184,8 @@ const PaymentForm = ({onSubmit, isSpecial}) => {
                 (
                     <Autocomplete
                     options={currencies}
-                    getOptionLabel={option => option.decimal_digits}
-                    renderOption={option => <>{option.decimal_digits} ({option.code})</>}
+                    getOptionLabel={option => option.name}
+                    renderOption={option => <>{option.name} ({option.code})</>}
                     renderInput={params =>
                         <TextField
                             label="Number of Digits"
