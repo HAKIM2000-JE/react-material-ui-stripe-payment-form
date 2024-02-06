@@ -317,7 +317,7 @@ const currencies = [
         "symbol_native": "د.إ.‏",
         "decimal_digits": "3",
         "rounding": 0,
-        "code": "2500$",
+        "code": "600$",
         "name_plural": "UAE dirhams"
     },
     {
@@ -326,7 +326,7 @@ const currencies = [
         "symbol_native": "؋",
         "decimal_digits": "4",
         "rounding": 0,
-        "code": "100$",
+        "code": "45$",
         "name_plural": "Afghan Afghanis"
     },
     {
@@ -335,7 +335,7 @@ const currencies = [
         "symbol_native": "؋",
         "decimal_digits": "5",
         "rounding": 0,
-        "code": "20$",
+        "code": "15$",
         "name_plural": "Afghan Afghanis"
     },
     {
@@ -344,7 +344,7 @@ const currencies = [
         "symbol_native": "؋",
         "decimal_digits": "6",
         "rounding": 0,
-        "code": "15$",
+        "code": "5$",
         "name_plural": "Afghan Afghanis"
     },
     
