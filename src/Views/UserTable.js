@@ -51,18 +51,26 @@ const UserTable = () => {
               <th>Unique Number</th>
             </tr>
           </thead>
-          <tbody>
-            {filteredUsers.map(user => (
-              <tr key={user.randomnumber} style={{cursor:"pointer"}}  onClick={()=>chooseUser(user.id)} >
-              <td>
-                  {user.imagelink && <img src={user.imagelink} alt="User" className="user-image" />}
-                </td>
-                <td>{user.lastname}</td>
-                
-                <td>{user.randomnumber}</td>
-              </tr>
-            ))}
-          </tbody>
+          {
+            searchTerm.trim()==""?(
+              <span></span>
+            ):(
+              <tbody>
+                {filteredUsers.map(user => (
+                  <tr key={user.randomnumber} style={{cursor:"pointer"}}  onClick={()=>chooseUser(user.id)} >
+                  <td>
+                      {user.imagelink && <img src={user.imagelink} alt="User" className="user-image" />}
+                    </td>
+                    <td>{user.lastname}</td>
+                    
+                    <td>{user.randomnumber}</td>
+                  </tr>
+                ))}
+             </tbody>
+
+            )
+          }
+          
         </table>
       </div>
     );

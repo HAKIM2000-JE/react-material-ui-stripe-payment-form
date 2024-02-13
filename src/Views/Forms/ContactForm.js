@@ -73,23 +73,6 @@ const ContactForm = () => {
         </Grid>
         <Grid item xs={12} sm={4}>
             <TextField
-                label="Name"
-                name="firstname"
-                variant="outlined"
-                required
-                fullWidth
-                value={formValues.firstname}
-                onChange={e =>
-                    dispatch({
-                        type: 'editFormValue',
-                        key: "firstname",
-                        value: e.target.value
-                    })
-                }
-            />
-        </Grid>
-        <Grid item xs={12} sm={4}>
-            <TextField
                 label="Nick Name"
                 name="lastname"
                 variant="outlined"
